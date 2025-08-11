@@ -10,8 +10,8 @@ object Tonic : ModInitializer {
     val logger = LoggerFactory.getLogger("tonic")
 
 	override fun onInitialize() {
-		ModuleLoader.getDirs()
 		logger.info("Hello Fabric world!")
 		var loader = Loader
+		Loader.startModules()
 	}
 }

@@ -1,15 +1,17 @@
 package com.tonic
 
+import com.tonic.lua.Loader
+import com.tonic.lua.ModuleLoader
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
 
 object Tonic : ModInitializer {
-    private val logger = LoggerFactory.getLogger("tonic")
+
+    val logger = LoggerFactory.getLogger("tonic")
 
 	override fun onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		ModuleLoader.getDirs()
 		logger.info("Hello Fabric world!")
+		var loader = Loader
 	}
 }

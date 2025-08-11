@@ -2,6 +2,7 @@ plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 	id "org.jetbrains.kotlin.jvm" version "2.2.0"
+
 }
 
 version = project.mod_version
@@ -25,10 +26,14 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation("org.luaj:luaj-jse:3.0.1")
-
+	implementation("com.akuleshov7:ktoml-core:0.7.0")
+	implementation("com.akuleshov7:ktoml-file:0.7.0")
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+
+	runtimeOnly("com.akuleshov7:ktoml-core:0.7.0")
+	runtimeOnly("com.akuleshov7:ktoml-file:0.7.0")
 }
 
 processResources {

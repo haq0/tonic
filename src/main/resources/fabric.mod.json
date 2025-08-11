@@ -3,9 +3,9 @@
 	"id": "tonic",
 	"version": "${version}",
 	"name": "tonic",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Lua Script Interpreter for Minecraft Fabric.",
 	"authors": [
-		"Me!"
+		"haquire"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",

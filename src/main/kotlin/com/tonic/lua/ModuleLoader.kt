@@ -3,11 +3,11 @@ package com.tonic.lua
 import com.akuleshov7.ktoml.Toml
 import com.tonic.Tonic
 import kotlinx.serialization.Serializable
-import java.nio.file.Files
-import java.nio.file.Path
 import java.util.stream.Collectors
-import kotlin.io.path.name
+import java.nio.file.Files
 import kotlinx.serialization.serializer
+import java.nio.file.Path
+import kotlin.io.path.name
 
 object ModuleLoader {
     data class LoadedModule(val path: Path, val metadata: Metadata)

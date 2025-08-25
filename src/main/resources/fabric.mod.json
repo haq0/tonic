@@ -20,6 +20,9 @@
 				"value": "com.tonic.Tonic",
 				"adapter": "kotlin"
 			}
+		],
+		"client": [
+			"com.tonic.lua.api.Handler"
 		]
 	},
 	"mixins": [

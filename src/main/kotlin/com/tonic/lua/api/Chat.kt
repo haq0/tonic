@@ -1,7 +1,6 @@
 package com.tonic.lua.api
 
 import com.mojang.authlib.GameProfile
-import com.tonic.Tonic
 import com.tonic.lua.EventBus
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.minecraft.client.MinecraftClient
@@ -63,4 +62,9 @@ object ChatEvents {
     }
 
 
+}
+object ChatLocal {
+    fun chat(text: String) {
+        MinecraftClient.getInstance().inGameHud.chatHud.addMessage(Text.literal(text))
+    }
 }

@@ -16,5 +16,11 @@ class EventBus {
             handler.invoke(LuaValue.varargsOf(args))
         }
     }
+    fun unregister(eventName: String, func: LuaFunction) {
+        handlers[eventName]?.remove(func)
+        if (handlers[eventName]?.isEmpty() == true) {
+            handlers.remove(eventName)
+        }
+    }
 
 }

@@ -5,11 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.registry.Registries
-import net.minecraft.text.Text
 
 class Handler : ClientModInitializer {
     override fun onInitializeClient() {
@@ -22,6 +18,8 @@ class Handler : ClientModInitializer {
         private var previousScreen: Screen? = null
         private var delayTicks: Int = 0
 
+        val slotItemMap: HashMap<Int, String> = HashMap()
+
         fun parseInventory(screen: Screen?) {
             if (screen !is GenericContainerScreen) return
 
@@ -29,38 +27,18 @@ class Handler : ClientModInitializer {
             val player = mc.player ?: return
             val handler = screen.screenHandler
 
+            slotItemMap.clear()
+
             for ((i, slot) in handler.slots.withIndex()) {
                 val stack = slot.stack
                 if (stack.isEmpty) continue
 
                 val itemName = stack.name.string
-                val itemId = Registries.ITEM.getId(stack.item).toString()
+                slotItemMap[i] = itemName
 
                 ChatLocal.chat("=== Slot $i ===")
                 ChatLocal.chat("Name: $itemName")
-                ChatLocal.chat("Item ID: $itemId")
-
-                val tooltip = stack.getTooltip(
-                    Item.TooltipContext.DEFAULT,
-                    player,
-                    TooltipType.BASIC
-                )
-
-                tooltip.take(4).forEachIndexed { index, line ->
-                    val rawString = line.string
-                    val fullRaw = line.toString()
-                    val font = line.style?.font?.toString() ?: "default"
-                    val siblings = line.siblings.joinToString(", ") { it.string }
-
-                    ChatLocal.chat("Line $index: $rawString")
-                    ChatLocal.chat(" - Raw: $fullRaw")
-                    ChatLocal.chat(" - Font: $font")
-                    if (siblings.isNotEmpty()) {
-                        ChatLocal.chat(" - Siblings: $siblings")
-                    }
-                }
-
-                ChatLocal.chat("=================")
+                ChatLocal.chat("Item ID: ${Registries.ITEM.getId(stack.item)}")
             }
         }
 

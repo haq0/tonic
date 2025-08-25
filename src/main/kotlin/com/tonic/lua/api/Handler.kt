@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.Item
+import net.minecraft.item.tooltip.TooltipType
 
 
 class Handler : ClientModInitializer {
@@ -17,23 +18,35 @@ class Handler : ClientModInitializer {
         private var previousScreen: Screen? = null
 
         fun parseInventory(screen: Screen?) {
-            if (screen !is GenericContainerScreen) {
-                return
-            }
+            if (screen !is GenericContainerScreen) return
+
+            val mc = MinecraftClient.getInstance()
+            val player = mc.player ?: return
             val inventory = screen.screenHandler.inventory
-            if (inventory.isEmpty) {
-                ChatLocal.chat("Inventory is empty")
-                return
-            }
-            val inventorySize = inventory.size()
-            for (i in 0..<inventorySize) {
-                val currentItem: Item? = inventory.getStack(i).item
-                ChatLocal.chat("Slot $i: ${currentItem?.name}")
+
+            for (i in 0 until inventory.size()) {
+                val stack = inventory.getStack(i)
+                if (stack.isEmpty) continue
+
+                val tooltip = stack.getTooltip(
+                    Item.TooltipContext.DEFAULT,
+                    player,
+                    TooltipType.BASIC
+                )
+
+                if (tooltip.isNotEmpty()) {
+                    val displayName = tooltip[0].string
+                    val lastTwo = tooltip.takeLast(2).map { it.string }
+
+                    ChatLocal.chat("Slot $i: $displayName")
+                    lastTwo.forEach { line ->
+                        ChatLocal.chat("   -> $line")
+                    }
+                }
             }
         }
 
         fun loop(client: MinecraftClient?) {
-            // same logic as above
             val screen: Screen? = MinecraftClient.getInstance().currentScreen
             parseInventory(screen)
             previousScreen = screen
